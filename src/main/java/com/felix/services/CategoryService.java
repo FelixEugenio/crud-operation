@@ -6,10 +6,14 @@ import com.felix.exceptions.EntityNotFoundException;
 import com.felix.models.Category;
 import com.felix.repositories.CategoryRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import org.hibernate.query.sqm.mutation.internal.temptable.LocalTemporaryTableInsertStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,9 +27,9 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     @Transactional
-    public List<CategoryDTO> findAll(){
-        List<Category> list = categoryRepository.findAll();
-       return list.stream().map(x-> new CategoryDTO(x)).collect(Collectors.toList());
+    public Page<CategoryDTO> findAllPaged(PageRequest pageRequest){
+        Page<Category> list = categoryRepository.findAll(pageRequest);
+       return list.map(x-> new CategoryDTO(x));
     }
 
     @Transactional
