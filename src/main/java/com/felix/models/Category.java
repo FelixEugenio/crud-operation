@@ -1,13 +1,20 @@
 package com.felix.models;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = "categories")
 public class Category implements Serializable {
 
     private static  final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
 
     public Category(){
